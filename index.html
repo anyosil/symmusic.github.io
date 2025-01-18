@@ -9,6 +9,23 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
+    .return-home {
+      position: fixed ;
+      top: 10px;
+      right: 10px;
+      background-color: #007BFF;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .return-home:hover {
+      background-color: #0056b3; /* Darker shade on hover */
+    }
     .search-container {
       margin: 20px auto;
       text-align: center;
@@ -44,79 +61,99 @@
       text-decoration: none;
       font-size: 14px;
     }
+    .pagination {
+      margin-top: 20px;
+    }
+    .pagination button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+    }
   </style>
   <script>
     var data = [
-      { 
-        title: "Bad", 
-        artist: "Michael Jackson", 
-        album: "Bad", 
-        file: "./music/MJ/Bad-Michael_Jackson-.mp3", 
-        cover: "./covers/bad.jpg" 
-      },
-      { 
-        title: "Beat It!", 
-        artist: "Michael Jackson", 
-        album: "Thriller", 
-        file: "./music/MJ/Beat-It.mp3", 
-        cover: "./covers/beat it.jpg" 
-      },
-      { 
-        title: "Billy Jean", 
-        artist: "Michael Jackson", 
-        album: "Thriller", 
-        file: "./music/MJ/Billy-Jean.mp3", 
-        cover: "./covers/billie jean.jpeg" 
-      },
-      { 
-        title: "Black Or White", 
-        artist: "Michael Jackson", 
-        album: "Dangerous", 
-        file: "./music/MJ/Dangerous Black-Or-White.mp3", 
-        cover: "./covers/bw mj.jpeg" 
-      },
-      { 
-        title: "Thriller", 
-        artist: "Michael Jackson", 
-        album: "Thriller", 
-        file: "./music/MJ/Thriller.mp3", 
-        cover: "./covers/thriller.jpeg" 
-      }
+      // Sample dataset. Add all your songs here.
+      { title: "Bad", artist: "Michael Jackson", album: "Bad", file: "./music/MJ/Bad-Michael_Jackson-.mp3", cover: "./covers/bad.jpg" },
+      { title: "Beat It!", artist: "Michael Jackson", album: "Thriller", file: "./music/MJ/Beat-It.mp3", cover: "./covers/beat it.jpg" },
+      { title: "Billy Jean", artist: "Michael Jackson", album: "Thriller", file: "./music/MJ/Billy-Jean.mp3", cover: "./covers/billie jean.jpeg" },
+      { title: "Black Or White", artist: "Michael Jackson", album: "Dangerous", file: "./music/MJ/Dangerous Black-Or-White", cover: "./covers/bw mj.jpeg" },
+      { title: "Thriller", artist: "Michael Jackson", album: "Thriller", file: "./music/MJ/Thriller.mp3", cover: "./covers/thriller.jpeg" },
+      { title: "Baby Blue", artist: "BadFinger", album: "-", file: "./music/Others/BadFinger - Baby Blue.mp3", cover: "./covers/baby blue.jpg" },
+      { title: "Big Dawgs", artist: "Hanumankind", album: "Gettin' It (Album Number Ten)", file: "./music/Others/Big Dawgs - Hanumankind.mp3", cover: "./covers/big dawgs.jpeg" },
+      { title: "Happy New Year", artist: "Camera Obscura", album: "Let's Get Out Of This Country", file: "./music/Others/Happy New Year -- Camera Obscura", cover: "./covers/Happy new year.png" },
+      { title: "I Want The World To Stop", artist: "Belle & Sebastian", album: "Write About Love", file: "./music/Others/I Want The World To Stop.mp3", cover: "./covers/i_want_the_world_to_stop.png" },
+      { title: "Ломки - Lomcky", artist: "No info", album: "No info", file: "./music/Others/Ломки - Lomcky.mp3", cover: "./covers/Lomcky.jpg" },
+
+      // Add more songs here
     ];
 
+    const ITEMS_PER_PAGE = 15;
+    let currentPage = 1;
+
     function displaySongs(songs) {
-      var resultsContainer = document.getElementById("results");
+      const resultsContainer = document.getElementById("results");
       resultsContainer.innerHTML = ""; // Clear previous results
-      for (var i = 0; i < songs.length; i++) {
-        var item = songs[i];
-        var div = document.createElement("div");
+
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const paginatedSongs = songs.slice(start, end);
+
+      for (var i = 0; i < paginatedSongs.length; i++) {
+        const item = paginatedSongs[i];
+        const div = document.createElement("div");
         div.className = "image-box";
         div.innerHTML =
           '<img src="' + item.cover + '" alt="' + item.title + '">' +
           '<p><strong>Title:</strong> ' + item.title + '</p>' +
           '<p><strong>Artist:</strong> ' + item.artist + '</p>' +
           '<p><strong>Album:</strong> ' + item.album + '</p>' +
-          '<a href="' + item.file + '" target="_blank" class="play-button">Play "' + item.title + '"</a>';
+          '<a href="' + item.file + '" target="_blank" class="play-button">Play!</a>';
         resultsContainer.appendChild(div);
       }
 
       if (songs.length === 0) {
-        alert("No results found");
+        alert("Uh Oh!, We searched near and far!. Please try a different search term.");
+      }
+
+      updatePaginationControls(songs.length);
+    }
+
+    function updatePaginationControls(totalItems) {
+      const paginationContainer = document.getElementById("pagination");
+      paginationContainer.innerHTML = ""; // Clear existing controls
+
+      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+      if (currentPage > 1) {
+        const prevButton = document.createElement("button");
+        prevButton.textContent = "Previous";
+        prevButton.onclick = function () {
+          currentPage--;
+          displaySongs(data);
+        };
+        paginationContainer.appendChild(prevButton);
+      }
+
+      if (currentPage < totalPages) {
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Next";
+        nextButton.onclick = function () {
+          currentPage++;
+          displaySongs(data);
+        };
+        paginationContainer.appendChild(nextButton);
       }
     }
 
     function performSearch() {
-      var query = document.getElementById("searchInput").value.toLowerCase();
-      var results = [];
-      for (var i = 0; i < data.length; i++) {
-        if (
-          data[i].title.toLowerCase().indexOf(query) !== -1 || 
-          data[i].artist.toLowerCase().indexOf(query) !== -1 || 
-          data[i].album.toLowerCase().indexOf(query) !== -1
-        ) {
-          results.push(data[i]);
-        }
-      }
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const results = data.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.artist.toLowerCase().includes(query) ||
+        item.album.toLowerCase().includes(query)
+      );
       displaySongs(results);
       alert("To return to HomePage Please give a blank search request. Search Will now continue");
     }
@@ -124,10 +161,11 @@
     window.onload = function () {
       alert('Welcome to Symbian Internet Music Service! This service is still under development, so you might encounter some issues!');
       displaySongs(data); // Display all songs initially
-    };
+    }; 
   </script>
 </head>
 <body>
+  <a href="index.html" class="return-home">Home</a>
   <!-- Welcome Message -->
   <h1>Welcome to Symphonia</h1>
   
@@ -140,6 +178,10 @@
     <button class="search-button" onclick="performSearch()">Search</button>
   </div>
 
+  <!-- Results -->
   <div id="results"></div>
+
+  <!-- Pagination Controls -->
+  <div id="pagination" class="pagination"></div>
 </body>
 </html>
