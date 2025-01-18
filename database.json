@@ -1,0 +1,12 @@
+[
+    { "title": "Bad", "artist": "Michael Jackson", "album": "Bad", "file": "./music/MJ/Bad-Michael_Jackson-.mp3", "cover": "./covers/bad.jpg" },
+    { "title": "Beat It!", "artist": "Michael Jackson", "album": "Thriller", "file": "./music/MJ/Beat-It.mp3", "cover": "./covers/beat it.jpg" },
+    { "title": "Billy Jean", "artist": "Michael Jackson", "album": "Thriller", "file": "./music/MJ/Billy-Jean.mp3", "cover": "./covers/billie jean.jpeg" },
+    { "title": "Black Or White", "artist": "Michael Jackson", "album": "Dangerous", "file": "./music/MJ/Dangerous Black-Or-White", "cover": "./covers/bw mj.jpeg" },
+    { "title": "Thriller", "artist": "Michael Jackson", "album": "Thriller", "file": "./music/MJ/Thriller.mp3", "cover": "./covers/thriller.jpeg" },
+    { "title": "Baby Blue", "artist": "BadFinger", "album": "-", "file": "./music/Others/BadFinger - Baby Blue.mp3", "cover": "./covers/baby blue.jpg" },
+    { "title": "Big Dawgs", "artist": "Hanumankind", "album": "Gettin' It (Album Number Ten)", "file": "./music/Others/Big Dawgs - Hanumankind.mp3", "cover": "./covers/big dawgs.jpeg" },
+    { "title": "Happy New Year", "artist": "Camera Obscura", "album": "Let's Get Out Of This Country", "file": "./music/Others/Happy New Year -- Camera Obscura", "cover": "./covers/Happy new year.png" },
+    { "title": "I Want The World To Stop", "artist": "Belle & Sebastian", "album": "Write About Love", "file": "./music/Others/I Want The World To Stop.mp3", "cover": "./covers/i_want_the_world_to_stop.png" },
+    { "title": "Ломки - Lomcky", "artist": "No info", "album": "No info", "file": "./music/Others/Ломки - Lomcky.mp3", "cover": "./covers/Lomcky.jpg" }
+]
