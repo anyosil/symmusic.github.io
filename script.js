@@ -72,10 +72,11 @@ function updatePaginationControls(totalItems) {
 
 function performSearch() {
     var query = document.getElementById("searchInput").value.toLowerCase();
-    var results = data.filter(item =>
-    item.title.toLowerCase().includes(query) ||
-    item.artist.toLowerCase().includes(query) ||
-    item.album.toLowerCase().includes(query)
+    var results = data.filter(function(item) {
+        return item.title.toLowerCase().indexOf(query) !== -1 ||
+            item.artist.toLowerCase().indexOf(query) !== -1 ||
+            item.album.toLowerCase().indexOf(query) !== -1
+    }
     );
     displaySongs(results);
     alert("To return to HomePage Please give a blank search request. Search Will now continue");
