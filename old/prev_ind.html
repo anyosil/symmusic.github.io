@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symbian Internet Music</title>
+  <style>
+    .search-container {
+      max-width: 400px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+    }
+    .search-bar {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px 0 0 4px;
+    }
+    .search-button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .search-button:hover {
+      background-color: #0056b3;
+    }
+    .image-box {
+      display: inline-block;
+      text-align: center;
+      margin: 20px;
+    }
+    .image-box img {
+      width: 200px;
+      height: auto;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+    .image-box p {
+      margin-top: 8px;
+      font-size: 16px;
+      color: #333;
+    }
+    .play-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .play-button:hover {
+      background-color: #0056b3;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+  <script>
+    const data = [
+      { title: "Bad", artist: "Michael Jackson", album: "-", file: "./music/MJ/Bad-Michael_Jackson-.mp3", cover: "./covers/bad.jpg" },
+      { title: "Beat It!", artist: "Michael Jackson", album: "-", file: "./music/MJ/Beat-It.mp3", cover: "./covers/beat it.jpg" },
+      { title: "Billy Jean", artist: "Michael Jackson", album: "-", file: "./music/MJ/Billy-Jean.mp3", cover: "./covers/billie jean.jpeg" },
+      { title: "Black or White", artist: "Michael Jackson", album: "Dangerous", file: "./music/MJ/Dangerous Black-Or-White.mp3", cover: "./covers/bw mj.jpeg" },
+      { title: "Thriller", artist: "Michael Jackson", album: "-", file: "./music/MJ/Thriller.mp3", cover: "./covers/thriller.jpeg" }
+    ];
+
+    function displaySongs(songs) {
+      const resultsContainer = document.getElementById("results");
+      resultsContainer.innerHTML = ""; // Clear previous results
+      songs.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "image-box";
+        div.innerHTML = `
+          <img src="${item.cover}" alt="${item.title}">
+          <p><strong>${item.title}<strong></p>
+          <p><strong>Artist: </strong>${item.artist}</p>
+          <p>Album/Movie: ${item.album}</p>
+          <a href="${item.file}" target="_blank" class="play-button">Play!</a>
+        `;
+        resultsContainer.appendChild(div);
+      });
+
+      if (songs.length === 0) {
+        resultsContainer.innerHTML = "<p>Uh Oh!! We searched nook and corners! Yet we still couldn't find it. Maybe we haven't added the song yet?</p>";
+      }
+    }
+
+    function performSearch() {
+      const query = document.getElementById("searchInput").value.toLowerCase(); // Get search query
+      const results = data.filter(item =>
+       item.title.toLowerCase().includes(query) || 
+       item.artist.toLowerCase().includes(query) || 
+       item.album.toLowerCase().includes(query)  // Added search by album
+  );
+  displaySongs(results); // Display the search results
+    }
+
+    window.onload = function () {
+      alert('Welcome to Symbian Internet Music Service! This service is still under development, so you might have some errors!!');
+      displaySongs(data); // Display all songs initially
+    };
+  </script>
+</head>
+<body>
+  <p>Welcome to Symbian Internet Music!</p>
+  <p>This is an initiative to implement internet music services in older Symbian and Series phones with internet access!</p>
+  <p>To return to homepage after a search give a blank search!</p>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search for a song...">
+    <button class="search-button" onclick="performSearch()">Search</button>
+  </div>
+
+  <!-- Display All Songs Initially -->
+  <div id="results"></div>
+</body>
+</html>
