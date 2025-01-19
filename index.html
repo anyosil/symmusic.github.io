@@ -57,7 +57,6 @@
   </style>
   <script>
     var data = [
-      // Sample dataset. Add all your songs here.
       { title: "Bad", artist: "Michael Jackson", album: "Bad", file: "./music/MJ/Bad-Michael_Jackson-.mp3", cover: "./covers/bad.jpg" },
       { title: "Beat It!", artist: "Michael Jackson", album: "Thriller", file: "./music/MJ/Beat-It.mp3", cover: "./covers/beat it.jpg" },
       { title: "Billy Jean", artist: "Michael Jackson", album: "Thriller", file: "./music/MJ/Billy-Jean.mp3", cover: "./covers/billie jean.jpeg" },
@@ -76,24 +75,23 @@
       { title: "Jak igła", artist: "Lady Pank", album: "No info", file: "./music/Others/Jak igła.mp3", cover: "./covers/no_cover.jpg" },
       { title: "Mniej niż zero", artist: "Lady Pank", album: "No info", file: "./music/Others/Mniej niż zero.mp3", cover: "./covers/no_cover.jpg" },
       { title: "Mała lady punk", artist: "Lady Pank", album: "No info", file: "./music/Others/Mała lady punk.mp3", cover: "./covers/no_cover.jpg" },
-      { title: "Na co komu dziś", artist: "Lady Pank", album: "No info", file: "./music/Others/Na co komu dziś.mp3", cover: "./covers/no_cover.jpg" }
-      // Add more songs here
+      { title: "Na co komu dziś", artist: "Lady Pank", album: "No info", file: "./music/Others/Na co komu dziś.mp3", cover: "./covers/no_cover.jpg" },
+      // Add more songs here as needed
     ];
-
-    const ITEMS_PER_PAGE = 15;
-    let currentPage = 1;
+    var ITEMS_PER_PAGE = 15;
+    var currentPage = 1;
 
     function displaySongs(songs) {
-      const resultsContainer = document.getElementById("results");
-      resultsContainer.innerHTML = ""; // Clear previous results
+      var resultsContainer = document.getElementById("results");
+      resultsContainer.innerHTML = "";
 
-      const start = (currentPage - 1) * ITEMS_PER_PAGE;
-      const end = start + ITEMS_PER_PAGE;
-      const paginatedSongs = songs.slice(start, end);
+      var start = (currentPage - 1) * ITEMS_PER_PAGE;
+      var end = start + ITEMS_PER_PAGE;
+      var paginatedSongs = songs.slice(start, end);
 
       for (var i = 0; i < paginatedSongs.length; i++) {
-        const item = paginatedSongs[i];
-        const div = document.createElement("div");
+        var item = paginatedSongs[i];
+        var div = document.createElement("div");
         div.className = "image-box";
         div.innerHTML =
           '<img src="' + item.cover + '" alt="' + item.title + '">' +
@@ -105,20 +103,20 @@
       }
 
       if (songs.length === 0) {
-        alert("Uh Oh!, We searched near and far!. Please try a different search term.");
+        alert("No results found. Please try a different search term.");
       }
 
       updatePaginationControls(songs.length);
     }
 
     function updatePaginationControls(totalItems) {
-      const paginationContainer = document.getElementById("pagination");
-      paginationContainer.innerHTML = ""; // Clear existing controls
+      var paginationContainer = document.getElementById("pagination");
+      paginationContainer.innerHTML = "";
 
-      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+      var totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
       if (currentPage > 1) {
-        const prevButton = document.createElement("button");
+        var prevButton = document.createElement("button");
         prevButton.textContent = "Previous";
         prevButton.onclick = function () {
           currentPage--;
@@ -128,7 +126,7 @@
       }
 
       if (currentPage < totalPages) {
-        const nextButton = document.createElement("button");
+        var nextButton = document.createElement("button");
         nextButton.textContent = "Next";
         nextButton.onclick = function () {
           currentPage++;
@@ -139,39 +137,35 @@
     }
 
     function performSearch() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const results = data.filter(item =>
-        item.title.toLowerCase().includes(query) ||
-        item.artist.toLowerCase().includes(query) ||
-        item.album.toLowerCase().includes(query)
-      );
+      var query = document.getElementById("searchInput").value.toLowerCase();
+      var results = [];
+      for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        if (
+          item.title.toLowerCase().indexOf(query) !== -1 ||
+          item.artist.toLowerCase().indexOf(query) !== -1 ||
+          item.album.toLowerCase().indexOf(query) !== -1
+        ) {
+          results.push(item);
+        }
+      }
       displaySongs(results);
-      alert("To return to HomePage Please give a blank search request. Search Will now continue");
     }
 
-    window.onload = function () {
-      alert('Welcome to Symbian Internet Music Service! This service is still under development, so you might encounter some issues!');
-      displaySongs(data); // Display all songs initially
-    }; 
+    function init() {
+      alert('Welcome to Symbian Internet Music Service - Symphonia! Beta version 0.98');
+      displaySongs(data);
+    }
   </script>
 </head>
-<body>
-  <!-- Welcome Message -->
+<body onload="init()">
   <h1>Welcome to Symphonia</h1>
-  
-  <!-- Description Text -->
-  <h2>This is a service that re-enables internet music access to Older Symbian Phones</h2>
-
-  <!-- Search Bar -->
+  <h2>Re-enabling internet music access for older Symbian Phones</h2>
   <div class="search-container">
     <input type="text" id="searchInput" class="search-bar" placeholder="Search by title, artist, or album...">
     <button class="search-button" onclick="performSearch()">Search</button>
   </div>
-
-  <!-- Results -->
   <div id="results"></div>
-
-  <!-- Pagination Controls -->
   <div id="pagination" class="pagination"></div>
 </body>
 </html>
