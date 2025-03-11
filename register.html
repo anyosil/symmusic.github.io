@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Nuvi Services</title>
+    <style>
+        body {
+            font-family: Nokia Pure, Arial, sans-serif;
+            background-color: #ececec;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 240px;
+            margin: 50px auto;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #999;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        button {
+            width: 95%;
+            padding: 8px;
+            background-color: #005aff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:active {
+            background-color: #0041c4;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #005aff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Sign In</h3>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button type="button" onclick="login()">Login</button>
+        </form>
+        <a href="#" onclick="register()">Create Account</a>
+    </div>
+
+    <script>
+        var jsonBinUrl = "https://api.jsonbin.io/v3/b/67ca7dcaad19ca34f817f025/latest";
+        var jsonBinHeaders = { "X-Master-Key": "$2a$10$IG0fCGUHCL7iFsZMFQjI4e4ufPung048BrnWjddZBoo5V3UjUQ4ja" };
+
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", jsonBinUrl, true);
+            xhr.setRequestHeader("X-Master-Key", jsonBinHeaders["X-Master-Key"]);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var users = response.record.users;
+                    
+                    if (users[username] && users[username].password === password) {
+                        alert("Welcome, " + username);
+                        window.localStorage.setItem("user", username);
+                        window.location.href = "index.html";
+                    } else {
+                        alert("Invalid username or password.");
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function register() {
+            alert("Kindly Register with Nuvi Using a computer or an advanced device. Feature Coming Soon to Symbian Devices.");
+        }
+    </script>
+</body>
+</html>
